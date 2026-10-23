@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Zambre Agencies</title>
+    <!--CSS FILE-->
+    <!-- <link rel="stylesheet"href="{{ url_for('static', filename='css/common.css') }}"> -->
+    <link rel="stylesheet"href="{{ url_for('static', filename='css/user.css') }}">
+    <link rel="stylesheet"href="{{ url_for('static', filename='css/responsive.css') }}">
+</head>
+
+<body class="about-page">
+
+    <!-- HERO SECTION -->
+    <header class="about-hero">
+
+        <div class="hero-content">
+            <span class="hero-tag">WELCOME TO ZAMBRE AGENCIES</span>
+
+            <h1>
+                Your Trusted Destination for
+                <span>Hardware & Agriculture Equipment</span>
+            </h1>
+
+            <p>
+                Explore products for your hardware, electrical,
+                irrigation and farming tool requirements—all in one place.
+            </p>
+
+            <a href="{{ url_for('products') }}" class="about-primary-btn">
+                Explore Our Products →
+            </a>
+        </div>
+
+        <div class="hero-decoration">
+            <div class="hero-circle">
+                <span>🌿</span>
+                <strong>Zambre Agencies</strong>
+                <small>Hardware • Electrical • Agriculture</small>
+            </div>
+        </div>
+
+    </header>
+
+
+    <!-- ABOUT INTRODUCTION -->
+    <section class="about-intro section-container">
+
+        <div class="intro-label">WHO WE ARE</div>
+
+        <h2>About Our Store</h2>
+
+        <p>
+            Zambre Agencies is a store focused on hardware, electrical
+            products and agriculture equipment. Our online store helps
+            customers explore available products, check prices and stock,
+            add products to their cart and place orders conveniently.
+        </p>
+
+        <p>
+            Whether you are looking for hardware essentials, electrical
+            items, water pumps, irrigation accessories or farming tools,
+            our product categories make it easier to explore the options
+            available in our store.
+        </p>
+
+    </section>
+
+
+    <!-- PRODUCT CATEGORIES -->
+    <section class="about-categories">
+
+        <div class="section-container">
+
+            <div class="section-heading">
+                <span>WHAT WE OFFER</span>
+                <h2>Our Product Categories</h2>
+                <p>
+                    Explore the different product categories available
+                    at Zambre Agencies.
+                </p>
+            </div>
+
+            <div class="category-grid">
+
+                <article class="category-card">
+                    <div class="category-icon">🔧</div>
+                    <h3>Hardware</h3>
+                    <p>
+                        Explore hardware products for everyday
+                        repair and maintenance requirements.
+                    </p>
+                </article>
+
+                <article class="category-card">
+                    <div class="category-icon">💡</div>
+                    <h3>Electrical</h3>
+                    <p>
+                        Browse electrical products for a variety
+                        of installation and maintenance needs.
+                    </p>
+                </article>
+
+                <article class="category-card">
+                    <div class="category-icon">💧</div>
+                    <h3>Water Motors & Pumps</h3>
+                    <p>
+                        Find water motors, pumps and related
+                        accessories in one category.
+                    </p>
+                </article>
+
+                <article class="category-card">
+                    <div class="category-icon">🚿</div>
+                    <h3>Pipes & Irrigation</h3>
+                    <p>
+                        Explore pipes and irrigation products
+                        for water distribution requirements.
+                    </p>
+                </article>
+
+                <article class="category-card">
+                    <div class="category-icon">🌱</div>
+                    <h3>Sprayers & Farming Tools</h3>
+                    <p>
+                        Browse sprayers and tools for various
+                        farming activities.
+                    </p>
+                </article>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- WHY CHOOSE US -->
+    <section class="about-benefits section-container">
+
+        <div class="section-heading">
+            <span>OUR APPROACH</span>
+            <h2>Why Explore Zambre Agencies?</h2>
+            <p>
+                Simple features designed to make product browsing
+                and ordering more convenient.
+            </p>
+        </div>
+
+        <div class="benefits-grid">
+
+            <div class="benefit-item">
+                <span class="benefit-icon">📦</span>
+                <div>
+                    <h3>Multiple Categories</h3>
+                    <p>
+                        Browse hardware, electrical, irrigation
+                        and farming tool categories.
+                    </p>
+                </div>
+            </div>
+
+            <div class="benefit-item">
+                <span class="benefit-icon">🔍</span>
+                <div>
+                    <h3>Easy Product Browsing</h3>
+                    <p>
+                        Explore product details, prices and
+                        available stock online.
+                    </p>
+                </div>
+            </div>
+
+            <div class="benefit-item">
+                <span class="benefit-icon">🛒</span>
+                <div>
+                    <h3>Convenient Ordering</h3>
+                    <p>
+                        Add products to your cart and proceed
+                        through the checkout process.
+                    </p>
+                </div>
+            </div>
+
+            <div class="benefit-item">
+                <span class="benefit-icon">👤</span>
+                <div>
+                    <h3>Your Own Account</h3>
+                    <p>
+                        Register and log in to manage your
+                        cart, wishlist and orders.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CALL TO ACTION -->
+    <section class="about-cta">
+        <div class="cta-content">
+            <h2>Looking for the Right Product?</h2>
+            <p>
+                Explore our product categories and find items
+                that match your requirements.
+            </p>
+
+            <a href="{{ url_for('products') }}" class="about-cta-btn">
+                Browse Products →
+            </a>
+        </div>
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer class="about-footer">
+        <p>
+            © {{ 2026 }} Zambre Agencies.
+            All rights reserved.
+        </p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Wishlist | Zambre Agencies</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Existing CSS -->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/common.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/user.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/responsive.css') }}"
+    >
+</head>
+
+<body class="wishlist-page">
+
+    <!-- Navbar -->
+    {% include 'nav.html' %}
+
+    <main class="wishlist-container">
+
+        <!-- Page Heading -->
+        <header class="wishlist-heading">
+
+            <div>
+                <h1>My Wishlist ♡</h1>
+
+                <p>
+                    Keep your favourite products in one place.
+                </p>
+            </div>
+
+            <a
+                href="{{ url_for('products') }}"
+                class="wishlist-shop-btn"
+            >
+                Continue Shopping
+            </a>
+
+        </header>
+
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages() %}
+
+            {% if messages %}
+
+                {% for message in messages %}
+
+                    <div class="alert alert-info">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        <!-- Wishlist Products -->
+        {% if wishlist_items %}
+
+            <section class="wishlist-grid">
+
+                {% for item in wishlist_items %}
+
+                    <article class="wishlist-card">
+
+                        <!-- Product Image -->
+                        <div class="wishlist-image-box">
+
+                            {% if item['image'] %}
+
+                                {% set image_path = item['image'] %}
+
+                                {% if image_path.startswith('http://') or image_path.startswith('https://') %}
+
+                                    <img
+                                        src="{{ image_path }}"
+                                        alt="{{ item['name'] }}"
+                                        class="wishlist-product-image"
+                                        loading="lazy"
+                                    >
+
+                                {% elif image_path.startswith('/static/') %}
+
+                                    <img
+                                        src="{{ image_path }}"
+                                        alt="{{ item['name'] }}"
+                                        class="wishlist-product-image"
+                                        loading="lazy"
+                                    >
+
+                                {% elif image_path.startswith('static/') %}
+
+                                    <img
+                                        src="{{ url_for('static', filename=image_path[7:]) }}"
+                                        alt="{{ item['name'] }}"
+                                        class="wishlist-product-image"
+                                        loading="lazy"
+                                    >
+
+                                {% else %}
+
+                                    <img
+                                        src="{{ url_for('static', filename='uploads/' ~ image_path) }}"
+                                        alt="{{ item['name'] }}"
+                                        class="wishlist-product-image"
+                                        loading="lazy"
+                                    >
+
+                                {% endif %}
+
+                            {% else %}
+
+                                <div class="wishlist-image-placeholder">
+                                    📦
+                                    <span>No Image Available</span>
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- Product Details -->
+                        <div class="wishlist-product-info">
+
+                            <span class="wishlist-category">
+                                {{ item['category'] }}
+                            </span>
+
+                            <h2>{{ item['name'] }}</h2>
+
+                            <p class="wishlist-description">
+                                {{ item['description'] or 'No description available.' }}
+                            </p>
+
+                            <div class="wishlist-price-row">
+
+                                <strong class="wishlist-price">
+                                    ₹{{ "%.2f"|format(item['price']) }}
+                                </strong>
+
+                                {% if item['stock'] > 0 %}
+
+                                    <span class="wishlist-in-stock">
+                                        In Stock
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="wishlist-out-stock">
+                                        Out of Stock
+                                    </span>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <!-- Add to Cart -->
+                            <form
+                                action="{{ url_for('add_to_cart', product_id=item['product_id']) }}"
+                                method="POST"
+                                class="wishlist-cart-form"
+                            >
+
+                                <button
+                                    type="submit"
+                                    class="wishlist-add-btn"
+                                    {% if item['stock'] <= 0 %}disabled{% endif %}
+                                >
+                                    🛒 Add to Cart
+                                </button>
+
+                            </form>
+
+
+                            <!-- Remove from Wishlist -->
+                            <form
+                                action="{{ url_for('remove_from_wishlist', wishlist_id=item['wishlist_id']) }}"
+                                method="POST"
+                                class="wishlist-remove-form"
+                            >
+
+                                <button
+                                    type="submit"
+                                    class="wishlist-remove-btn"
+                                >
+                                    ♡ Remove from Wishlist
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </article>
+
+                {% endfor %}
+
+            </section>
+
+        {% else %}
+
+            <!-- Empty Wishlist -->
+            <section class="wishlist-empty">
+
+                <div class="wishlist-empty-title">
+                    <span class="wishlist-empty-icon">♡</span>
+                    <h2>No Wishlist Items Yet</h2>
+                </div>
+
+                <p>
+                    You haven't saved any favourite products yet.
+                    Explore our store and add products to your wishlist.
+                </p>
+
+                <a href="{{ url_for('products') }}" class="wishlist-shop-btn">
+                    Explore Products
+                </a>
+
+            </section>
+
+        {% endif %}
+
+    </main>
+
+</body>
+</html>

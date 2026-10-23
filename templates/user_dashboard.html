@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>User Dashboard | Zambre Agencies</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <!-- User CSS -->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/user.css') }}">
+
+    <!-- Responsive CSS -->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/responsive.css') }}">
+</head>
+
+<body class="user-dashboard-page">
+
+    <div class="dashboard-layout">
+
+        <!-- =================================
+             SIDEBAR
+        ================================== -->
+
+        <aside class="dashboard-sidebar" id="userSidebar">
+
+            <!-- Brand -->
+            <div class="dashboard-brand">
+
+                <span class="brand-icon">🌿</span>
+
+                <div>
+                    <h2>Zambre Agencies</h2>
+                    <p>Customer Panel</p>
+                </div>
+
+            </div>
+
+            <div class="sidebar-heading">MENU</div>
+
+            <nav class="dashboard-menu">
+
+                <!-- Dashboard -->
+                <a href="{{ url_for('user_dashboard') }}"
+                   class="dashboard-menu-link active">
+
+                    <span>▦</span>
+                    Dashboard
+
+                </a>
+
+                <!-- Shop Products -->
+                <a href="{{ url_for('products') }}"
+                   class="dashboard-menu-link">
+
+                    <span>🛍️</span>
+                    Shop Products
+
+                </a>
+
+                <!-- My Cart -->
+                <a href="{{ url_for('cart') }}"
+                   class="dashboard-menu-link">
+
+                    <span>🛒</span>
+                    My Cart
+
+                </a>
+
+                <div class="sidebar-heading account-heading">
+                    MY ACCOUNT
+                </div>
+
+                <!-- Sidebar My Orders -->
+                <a href="{{ url_for('my_orders') }}"
+                   class="dashboard-menu-link"
+                   id="sidebarMyOrdersLink">
+
+                    <span>📦</span>
+                    My Orders
+
+                </a>
+
+                <!-- Sidebar My Wishlist -->
+                <a href="{{ url_for('wishlist') }}"
+                   class="dashboard-menu-link"
+                   id="sidebarMyWishlistLink">
+
+                    <span>♡</span>
+                    My Wishlist
+
+                </a>
+
+                <!-- My Profile -->
+                <a href="{{ url_for('my_profile') }}" class="dashboard-menu-link">
+                 👤 My Profile
+                </a>
+
+                <!-- Back to Store -->
+                <a href="{{ url_for('home') }}"
+                   class="dashboard-menu-link">
+
+                    <span>⌂</span>
+                    Back to Store
+
+                </a>
+
+            </nav>
+
+
+            <!-- Customer Information and Logout -->
+            <div class="sidebar-bottom">
+
+                <div class="sidebar-customer">
+
+                    <div class="customer-avatar">👤</div>
+
+                    <div class="customer-info">
+
+                        <strong>
+                            {{ session.get('user_name', 'Customer') }}
+                        </strong>
+
+                        <small>User Account</small>
+
+                    </div>
+
+                </div>
+
+                <!-- Logout -->
+                <a href="{{ url_for('logout') }}"
+                   class="sidebar-logout"
+                   id="userLogoutBtn">
+
+                    <span>↪</span>
+                    Logout
+
+                </a>
+
+            </div>
+
+        </aside>
+
+
+        <!-- =================================
+             MAIN DASHBOARD CONTENT
+        ================================== -->
+
+        <main class="dashboard-main">
+
+            <!-- Topbar -->
+            <header class="dashboard-topbar">
+
+                <button type="button"
+                        class="sidebar-toggle"
+                        id="sidebarToggle"
+                        aria-label="Toggle sidebar"
+                        aria-expanded="false">
+
+                    ☰
+
+                </button>
+
+                <div class="topbar-title">
+
+                    <h1>Customer Dashboard</h1>
+                    <p>Manage your shopping experience</p>
+
+                </div>
+
+                <a href="{{ url_for('home') }}"
+                   class="visit-store-btn">
+
+                    Visit Store ↗
+
+                </a>
+
+            </header>
+
+
+            <!-- =================================
+                 WELCOME SECTION
+            ================================== -->
+
+            <section class="welcome-section">
+
+                <div>
+
+                    <p class="welcome-label">
+                        CUSTOMER PANEL
+                    </p>
+
+                    <h2>
+                        Welcome back,
+                        {{ session.get('user_name', 'Customer') }}! 👋
+                    </h2>
+
+                    <p>
+                        Explore our products and manage your account
+                        from one place.
+                    </p>
+
+                </div>
+
+                <div class="welcome-icon">🌿</div>
+
+            </section>
+
+
+            <!-- =================================
+                 QUICK ACCESS CARDS
+            ================================== -->
+
+            <section class="dashboard-section">
+
+                <div class="section-heading">
+
+                    <div>
+                        <h2>Quick Access</h2>
+
+                        <p>
+                            Choose what you would like to do today.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="dashboard-cards">
+
+
+                    <!-- =================================
+                         SHOP PRODUCTS CARD
+                    ================================== -->
+
+                    <a href="{{ url_for('products') }}"
+                       class="dashboard-card">
+
+                        <div class="card-icon products-icon">
+                            🛍️
+                        </div>
+
+                        <h3>Shop Products</h3>
+
+                        <p>
+                            Explore hardware, electrical and agricultural products.
+                        </p>
+
+                        <span class="card-action">
+                            Explore Products →
+                        </span>
+
+                    </a>
+
+
+                    <!-- =================================
+                         MY CART CARD
+                    ================================== -->
+
+                    <a href="{{ url_for('cart') }}"
+                       class="dashboard-card">
+
+                        <div class="card-icon cart-icon">
+                            🛒
+                        </div>
+
+                        <h3>My Cart</h3>
+
+                        <p>
+                            Open your shopping cart and review selected items.
+                        </p>
+
+                        <span class="card-action">
+                            Open Cart →
+                        </span>
+
+                    </a>
+
+
+                    <!-- =================================
+                         MY ORDERS CARD
+                    ================================== -->
+
+                    <a href="{{ url_for('my_orders') }}"
+                       class="dashboard-card orders-card-link"
+                       id="dashboardMyOrdersCard">
+
+                        <div class="card-icon orders-icon">
+                            📦
+                        </div>
+
+                        <h3>My Orders</h3>
+
+                        <p>
+                            View your purchases and order status.
+                        </p>
+
+                        <span class="card-action">
+                            View My Orders →
+                        </span>
+
+                    </a>
+
+
+                    <!-- =================================
+                         MY WISHLIST CARD
+                    ================================== -->
+
+                    <a href="{{ url_for('wishlist') }}"
+                       class="dashboard-card wishlist-card-link"
+                       id="dashboardMyWishlistCard">
+
+                        <div class="card-icon wishlist-icon">
+                            ♡
+                        </div>
+
+                        <h3>My Wishlist</h3>
+
+                        <p>
+                            Keep your favourite products together.
+                        </p>
+
+                        <span class="card-action">
+                            View My Wishlist →
+                        </span>
+
+                    </a>
+
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================
+                 ACCOUNT INFORMATION
+            ================================== -->
+
+            <!--
+            <section class="account-summary">
+
+                <div class="section-heading">
+
+                    <div>
+                        <h2>My Account</h2>
+                        <p>Your current login information</p>
+                    </div>
+
+                </div>
+
+                <div class="account-information">
+
+                    <div class="account-info-item">
+
+                        <span class="info-icon">👤</span>
+
+                        <div>
+                            <small>Customer Name</small>
+
+                            <strong>
+                                {{ session.get('user_name', 'Customer') }}
+                            </strong>
+                        </div>
+
+                    </div>
+
+                    <div class="account-info-item">
+
+                        <span class="info-icon">✉️</span>
+
+                        <div>
+                            <small>Email Address</small>
+
+                            <strong>
+                                {{ session.get('user_email', 'Not available') }}
+                            </strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+            -->
+
+
+            <!-- =================================
+                 FOOTER
+            ================================== -->
+
+            <footer class="dashboard-footer">
+
+                © 2026 Zambre Agencies |
+                Quality Products • Trusted Service
+
+            </footer>
+
+        </main>
+
+    </div>
+
+
+    <!-- =================================
+         MOBILE SIDEBAR OVERLAY
+    ================================== -->
+
+    <div class="sidebar-overlay"
+         id="sidebarOverlay">
+    </div>
+
+
+    <!-- Bootstrap JavaScript -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js">
+    </script>
+
+    <!-- User Dashboard JavaScript -->
+    <script
+        src="{{ url_for('static', filename='js/user.js') }}">
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Profile | Zambre Agencies</title>
+
+    <!-- Profile CSS -->
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/user.css') }}">
+</head>
+
+<body>
+
+    <main class="profile-page">
+
+        <div class="profile-container">
+
+            <!-- Page Heading -->
+            <div class="profile-heading">
+                <h1>My Profile</h1>
+                <p>Manage your personal information and account details.</p>
+            </div>
+
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="profile-message">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <!-- Profile Card -->
+            <section class="profile-card">
+
+                <!-- Profile Header -->
+                <div class="profile-header">
+
+                    <div class="profile-avatar">
+                        {{ user['name'][0]|upper if user['name'] else 'U' }}
+                    </div>
+
+                    <div class="profile-user-info">
+                        <h2>{{ user['name'] }}</h2>
+                        <p>{{ user['email'] }}</p>
+                    </div>
+
+                </div>
+
+                <!-- Profile Form -->
+                <form class="profile-form"
+                      action="{{ url_for('my_profile') }}"
+                      method="POST">
+
+                    <!-- Full Name -->
+                    <div class="profile-field">
+                        <label for="fullname">Full Name</label>
+
+                        <input
+                            type="text"
+                            id="fullname"
+                            name="fullname"
+                            value="{{ user['name'] }}"
+                            placeholder="Enter your full name"
+                            maxlength="100"
+                            autocomplete="name"
+                            required
+                        >
+                    </div>
+
+                    <!-- Email -->
+                    <div class="profile-field">
+                        <label for="email">Email Address</label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            value="{{ user['email'] }}"
+                            placeholder="Enter your email"
+                            maxlength="254"
+                            autocomplete="email"
+                            required
+                        >
+                    </div>
+
+                    <!-- Contact Number -->
+                    <div class="profile-field">
+                        <label for="contact">Contact Number</label>
+
+                        <input
+                            type="tel"
+                            id="contact"
+                            name="contact"
+                            value="{{ user['contact'] or '' }}"
+                            placeholder="Enter your contact number"
+                            maxlength="20"
+                            autocomplete="tel"
+                            required
+                        >
+                    </div>
+
+                    <!-- City -->
+                    <div class="profile-field">
+                        <label for="city">City</label>
+
+                        <input
+                            type="text"
+                            id="city"
+                            name="city"
+                            value="{{ user['city'] or '' }}"
+                            placeholder="Enter your city"
+                            maxlength="100"
+                            autocomplete="address-level2"
+                            required
+                        >
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="profile-actions"
+                         style="grid-column: 1 / -1;">
+
+                        <button type="submit" class="profile-save-btn">
+                            Save Changes
+                        </button>
+
+                        <a href="{{ url_for('user_dashboard') }}"
+                           class="profile-back-btn">
+                            ← Back to Dashboard
+                        </a>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+        </div>
+
+    </main>
+
+</body>
+</html>

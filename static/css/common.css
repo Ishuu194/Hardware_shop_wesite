@@ -1,0 +1,569 @@
+/* =========================================
+   ZAMBRE AGENCIES - COMMON NAVBAR CSS
+========================================= */
+
+.user-navbar {
+    position: relative;
+    z-index: 1050;
+    width: 100%;
+    padding: 13px 4%;
+    background: #ffffff;
+    border-bottom: 1px solid #e4eee7;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.04);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.user-navbar-container {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+}
+
+/* Logo */
+
+.user-brand {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    gap: 10px;
+    color: #064e3b;
+    text-decoration: none;
+}
+
+.user-brand:hover {
+    color: #087a4b;
+    text-decoration: none;
+}
+
+.user-brand-icon {
+    font-size: 32px;
+}
+
+.user-brand-text {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.user-brand-text strong {
+    font-size: 19px;
+    line-height: 1.2;
+    font-weight: 700;
+}
+
+.user-brand-text small {
+    color: #718078;
+    font-size: 10px;
+}
+
+/* Navbar Content */
+
+#userNavbarContent {
+    align-items: center;
+    justify-content: space-between;
+    flex: 1;
+    gap: 22px;
+}
+
+/* Navigation Links */
+
+.user-nav-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 22px;
+    margin: 0 auto;
+}
+
+.user-nav-link {
+    position: relative;
+    padding: 10px 0;
+    color: #46594e;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+}
+
+.user-nav-link:hover,
+.user-nav-link.active {
+    color: #087a4b;
+    text-decoration: none;
+}
+
+/* Active Link Underline */
+
+.user-nav-link.active::after {
+    position: absolute;
+    right: 0;
+    bottom: 2px;
+    left: 0;
+    height: 2px;
+    border-radius: 2px;
+    background: #087a4b;
+    content: "";
+}
+
+/* Search */
+
+.user-search-form {
+    display: flex;
+    align-items: center;
+    width: 215px;
+    min-width: 150px;
+    height: 39px;
+    overflow: hidden;
+    border: 1px solid #dce8e0;
+    border-radius: 8px;
+    background: #f8fbf9;
+}
+
+.user-search-form:focus-within {
+    border-color: #168153;
+    box-shadow: 0 0 0 3px rgba(22, 129, 83, 0.08);
+}
+
+.user-search-form input {
+    width: 100%;
+    min-width: 0;
+    padding: 9px 11px;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #193d32;
+    font-size: 12px;
+}
+
+.user-search-form button {
+    flex-shrink: 0;
+    width: 39px;
+    height: 39px;
+    border: none;
+    background: transparent;
+    color: #087a4b;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* Cart */
+
+.user-cart-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 11px;
+    border-radius: 8px;
+    color: #064e3b;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.user-cart-link:hover {
+    background: #e8f5ed;
+    color: #087a4b;
+    text-decoration: none;
+}
+
+/* Profile Dropdown */
+
+.user-profile-dropdown {
+    flex-shrink: 0;
+}
+
+.user-profile-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border: 1px solid #dce8e0;
+    border-radius: 9px;
+    background: #ffffff;
+    color: #064e3b;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+    text-decoration: none !important;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.user-profile-btn:hover,
+.user-profile-btn:focus,
+.guest-profile-btn,
+.guest-profile-btn:hover,
+.guest-profile-btn:focus {
+    text-decoration: none !important;
+}
+
+.user-profile-btn:hover,
+.user-profile-btn:focus {
+    border-color: #b8d8c8;
+    background: #f3faf5;
+    color: #087a4b;
+}
+
+.user-profile-avatar {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 29px;
+    height: 29px;
+    border-radius: 50%;
+    background: #e2f8eb;
+    font-size: 16px;
+}
+
+/* Dropdown Menu */
+
+.user-profile-menu {
+    min-width: 220px;
+    margin-top: 10px !important;
+    padding: 8px;
+    border: 1px solid #e2ebe5;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.user-profile-menu .profile-menu-heading {
+    padding: 10px 12px;
+    color: #849087;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.user-profile-menu .dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 11px 12px;
+    border-radius: 7px;
+    color: #355344;
+    font-size: 13px;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.user-profile-menu .dropdown-item span {
+    width: 20px;
+    color: #087a4b;
+    font-size: 17px;
+    text-align: center;
+}
+
+.user-profile-menu .dropdown-item:hover {
+    background: #eaf7ef;
+    color: #064e3b;
+}
+
+.user-profile-menu .dropdown-divider {
+    margin: 7px 0;
+    border-color: #e8eee9;
+}
+
+/* Logout Link */
+
+.user-profile-menu .user-logout-link,
+.user-profile-menu .user-logout-link span {
+    color: #c0392b;
+}
+
+.user-profile-menu .user-logout-link:hover {
+    background: #fff0ee;
+    color: #a52a20;
+}
+
+/* Mobile Toggle Base Style */
+
+.user-toggler {
+    padding: 7px 10px;
+    border-color: #cbdcd2;
+}
+
+.user-toggler:focus {
+    box-shadow: 0 0 0 3px rgba(22, 129, 83, 0.12);
+}
+/* =========================================
+   ZAMBRE AGENCIES - CART RESPONSIVE CSS
+========================================= */
+
+
+/* =========================================
+   LAPTOPS AND TABLETS
+========================================= */
+
+@media (max-width: 1100px) {
+
+    .cart-container {
+        padding: 24px 18px;
+    }
+
+    .cart-layout {
+        grid-template-columns: minmax(0, 1fr) 280px;
+        gap: 18px;
+    }
+
+    .cart-product-image {
+        width: 110px;
+        height: 115px;
+    }
+
+    .cart-summary {
+        padding: 19px;
+    }
+}
+
+
+/* =========================================
+   TABLETS
+========================================= */
+
+@media (max-width: 850px) {
+
+    .cart-container {
+        padding: 20px 15px;
+    }
+
+    /* Cart items and summary stack vertically */
+
+    .cart-layout {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 18px;
+    }
+
+    .cart-items {
+        width: 100%;
+    }
+
+    .cart-summary {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .cart-heading {
+        gap: 12px;
+    }
+
+    .cart-heading h1 {
+        font-size: 25px;
+    }
+
+    .cart-product-image {
+        width: 115px;
+        height: 115px;
+    }
+}
+
+
+/* =========================================
+   MOBILE PHONES
+========================================= */
+
+@media (max-width: 600px) {
+
+    .cart-container {
+        width: 100%;
+        padding: 16px 12px;
+    }
+
+    /* Page heading */
+
+    .cart-heading {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+
+        margin-bottom: 20px;
+    }
+
+    .cart-heading h1 {
+        font-size: 22px;
+        line-height: 1.35;
+    }
+
+    .cart-heading p {
+        font-size: 12px;
+        line-height: 1.5;
+    }
+
+    .continue-shopping {
+        display: inline-flex;
+        align-items: center;
+        padding: 9px 12px;
+        font-size: 11px;
+    }
+
+    /* Cart item */
+
+    .cart-items {
+        gap: 12px;
+    }
+
+    .cart-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+
+        width: 100%;
+        padding: 12px;
+
+        border-radius: 10px;
+    }
+
+    .cart-product-image {
+        flex: 0 0 95px;
+        width: 95px;
+        height: 105px;
+        padding: 6px;
+    }
+
+    .cart-product-details {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .cart-product-category {
+        font-size: 10px;
+    }
+
+    .cart-product-details h2 {
+        font-size: 14px;
+        line-height: 1.4;
+        overflow-wrap: anywhere;
+    }
+
+    .cart-product-price {
+        font-size: 14px;
+    }
+
+    .cart-quantity,
+    .cart-item-total {
+        font-size: 11px;
+        line-height: 1.5;
+    }
+
+    .remove-cart-btn {
+        margin-top: 5px;
+        padding: 7px 10px;
+        font-size: 10px;
+    }
+
+    /* Order summary */
+
+    .cart-summary {
+        padding: 17px;
+        border-radius: 10px;
+    }
+
+    .cart-summary h2 {
+        font-size: 18px;
+        margin-bottom: 16px;
+    }
+
+    .summary-row {
+        font-size: 12px;
+        margin-bottom: 13px;
+    }
+
+    .summary-total {
+        font-size: 13px;
+    }
+
+    .summary-total strong {
+        font-size: 19px;
+    }
+
+    .summary-note {
+        font-size: 10px;
+    }
+
+    .checkout-btn,
+    .shop-now-btn {
+        padding: 11px;
+        font-size: 12px;
+    }
+
+    /* Empty cart */
+
+    .empty-cart {
+        padding: 35px 15px;
+    }
+
+    .empty-cart-icon {
+        font-size: 40px;
+    }
+
+    .empty-cart h2 {
+        font-size: 20px;
+    }
+
+    .empty-cart p {
+        font-size: 12px;
+        line-height: 1.6;
+    }
+
+    /* Footer */
+
+    .cart-footer {
+        margin-top: 20px;
+        padding: 15px 6px;
+        font-size: 10px;
+        line-height: 1.6;
+    }
+}
+
+
+/* =========================================
+   VERY SMALL PHONES
+========================================= */
+
+@media (max-width: 380px) {
+
+    .cart-container {
+        padding: 13px 8px;
+    }
+
+    .cart-heading h1 {
+        font-size: 20px;
+    }
+
+    .cart-item {
+        gap: 9px;
+        padding: 9px;
+    }
+
+    .cart-product-image {
+        flex-basis: 78px;
+        width: 78px;
+        height: 90px;
+        padding: 5px;
+    }
+
+    .cart-product-details h2 {
+        font-size: 12px;
+    }
+
+    .cart-product-price {
+        font-size: 13px;
+    }
+
+    .cart-quantity,
+    .cart-item-total {
+        font-size: 10px;
+    }
+
+    .cart-summary {
+        padding: 14px;
+    }
+
+    .summary-total strong {
+        font-size: 17px;
+    }
+}

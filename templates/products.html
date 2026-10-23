@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Products | Zambre Agencies</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <!-- Navbar CSS -->
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/common.css') }}">
+
+    <!-- Products CSS -->
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/user.css') }}">
+
+    <!-- Responsive CSS -->
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/responsive.css') }}">
+</head>
+
+<body class="products-page">
+
+    <!-- Existing Navbar -->
+    {% include 'nav.html' %}
+
+    <main class="products-container">
+
+        <!-- ==================================
+             CATEGORY NAMES - SINGLE ROW
+        =================================== -->
+
+        <section class="product-categories-strip">
+
+            <!-- All Products -->
+            <a href="{{ url_for('products') }}"
+               class="category-mini-card
+               {% if not selected_category %}active{% endif %}">
+
+                <span class="category-mini-name">
+                    All Products
+                </span>
+
+            </a>
+
+            <!-- Categories from Database -->
+            {% for category_name in categories %}
+
+                <a href="{{ url_for('products', category=category_name) }}"
+                   class="category-mini-card
+                   {% if selected_category == category_name %}active{% endif %}"
+                   title="{{ category_name }}">
+
+                    <span class="category-mini-name">
+                        {{ category_name }}
+                    </span>
+
+                </a>
+
+            {% endfor %}
+
+            <!-- Back to Home -->
+            <a href="{{ url_for('home') }}"
+               class="category-mini-card back-home-category">
+
+                <span class="category-mini-name">
+                    Back to Home
+                </span>
+
+            </a>
+
+        </section>
+
+
+        <!-- ==================================
+             FLASH MESSAGES
+        =================================== -->
+
+        {% with messages = get_flashed_messages() %}
+
+            {% if messages %}
+
+                <div class="products-messages">
+
+                    {% for message in messages %}
+
+                        <div class="alert alert-success alert-dismissible fade show"
+                             role="alert">
+
+                            {{ message }}
+
+                            <button type="button"
+                                    class="btn-close"
+                                    data-bs-dismiss="alert"
+                                    aria-label="Close">
+                            </button>
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        <!-- ==================================
+             PRODUCT CARD TEMPLATE
+        =================================== -->
+
+        {% macro product_card(product) %}
+
+            <article class="product-card">
+
+                <!-- Product Image -->
+                <div class="product-image-box">
+
+                    {% if product['image'] %}
+
+                        <img
+                            src="{{ url_for('static', filename='uploads/' ~ product['image']) }}"
+                            alt="{{ product['name'] }}"
+                            class="product-image"
+                            loading="lazy">
+
+                    {% else %}
+
+                        <div class="product-image-placeholder">
+                            🌿
+                            <span>No image available</span>
+                        </div>
+
+                    {% endif %}
+
+
+                    <!-- Stock Badge -->
+                    {% if product['stock'] > 0 %}
+
+                        <span class="product-stock-badge in-stock">
+                            In Stock
+                        </span>
+
+                    {% else %}
+
+                        <span class="product-stock-badge out-stock">
+                            Out of Stock
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- Product Information -->
+                <div class="product-info">
+
+                    <span class="product-category">
+                        {{ product['category'] }}
+                    </span>
+
+                    <h2 class="product-name">
+                        {{ product['name'] }}
+                    </h2>
+
+                    <p class="product-description">
+                        {{ product['description'] or 'Quality product from Zambre Agencies.' }}
+                    </p>
+
+
+                    <!-- Price and Stock -->
+                    <div class="product-price-row">
+
+                        <span class="product-price">
+                            ₹{{ "%.2f"|format(product['price']) }}
+                        </span>
+
+                        <span class="product-stock-count">
+
+                            {% if product['stock'] > 0 %}
+                                {{ product['stock'] }} available
+                            {% else %}
+                                Currently unavailable
+                            {% endif %}
+
+                        </span>
+
+                    </div>
+
+
+                    <!-- Add to Cart -->
+                    {% if product['stock'] > 0 %}
+
+                        <form
+                            action="{{ url_for('add_to_cart', product_id=product['id']) }}"
+                            method="POST"
+                            class="product-cart-form">
+
+                            <button type="submit"
+                                    class="add-to-cart-btn">
+
+                                <span>🛒</span>
+                                Add to Cart
+
+                            </button>
+
+                        </form>
+
+                    {% else %}
+
+                        <button type="button"
+                                class="add-to-cart-btn disabled-cart-btn"
+                                disabled>
+
+                            Out of Stock
+
+                        </button>
+
+                    {% endif %}
+
+
+                    <!-- ==================================
+                         ADD TO WISHLIST
+                    =================================== -->
+
+                    <form
+                        action="{{ url_for('add_to_wishlist', product_id=product['id']) }}"
+                        method="POST"
+                        class="product-wishlist-form">
+
+                        <button
+                            type="submit"
+                            class="add-to-wishlist-btn"
+                            aria-label="Add {{ product['name'] }} to wishlist">
+
+                            <span>♡</span>
+                            Add to Wishlist
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </article>
+
+        {% endmacro %}
+
+
+        <!-- ==================================
+             ALL PRODUCTS / SELECTED CATEGORY
+        =================================== -->
+
+        {% if selected_category %}
+
+            {% set displayed_products = category_products %}
+            {% set section_title = selected_category %}
+
+        {% else %}
+
+            {% set displayed_products = all_products %}
+            {% set section_title = 'All Products' %}
+
+        {% endif %}
+
+
+        <section class="products-grid-section">
+
+            <!-- Section Heading -->
+            <div class="products-section-heading">
+
+                <h2>{{ section_title }}</h2>
+
+                <p>
+                    {{ displayed_products|length }}
+                    product{% if displayed_products|length != 1 %}s{% endif %}
+                    available
+                </p>
+
+            </div>
+
+
+            <!-- Products Grid -->
+            {% if displayed_products %}
+
+                <div class="products-grid">
+
+                    {% for product in displayed_products %}
+
+                        {{ product_card(product) }}
+
+                    {% endfor %}
+
+                </div>
+
+            {% else %}
+
+                <!-- No Products -->
+                <div class="products-empty-state">
+
+                    <div class="empty-product-icon">
+                        📦
+                    </div>
+
+                    <h2>No Products Available</h2>
+
+                    <p>
+                        No products were found in this category.
+                        Please explore another category.
+                    </p>
+
+                    <a href="{{ url_for('products') }}"
+                       class="add-to-cart-btn"
+                       style="display: inline-flex; width: auto; margin-top: 18px; text-decoration: none;">
+
+                        View All Products
+
+                    </a>
+
+                </div>
+
+            {% endif %}
+
+        </section>
+
+
+        <!-- ==================================
+             FOOTER
+        =================================== -->
+
+        <footer class="products-footer">
+
+            © 2026 Zambre Agencies |
+            Quality Products • Trusted Service
+
+        </footer>
+
+    </main>
+
+
+    <!-- Bootstrap JavaScript -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js">
+    </script>
+
+    <!-- User JavaScript -->
+    <script src="{{ url_for('static', filename='js/user.js') }}"></script>
+
+</body>
+</html>

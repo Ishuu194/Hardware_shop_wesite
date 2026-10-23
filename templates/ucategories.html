@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Categories | Zambre Agencies</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <!-- Same Navbar CSS -->
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/common.css') }}">
+
+    <!-- Existing User CSS -->
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/user.css') }}">
+
+    <!-- Existing Responsive CSS -->
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/responsive.css') }}">
+
+</head>
+
+<body class="ucategories-page">
+
+    <!-- SAME NAVBAR AS PRODUCTS PAGE -->
+    {% include 'nav.html' %}
+
+    <main class="ucategories-container">
+
+        <!-- Page Heading -->
+        <section class="ucategories-heading">
+
+            <span class="ucategories-label">
+                EXPLORE OUR STORE
+            </span>
+
+            <h1>Shop by Categories</h1>
+
+            <p>
+                Find the products you need for hardware, electrical
+                and agricultural requirements.
+            </p>
+
+        </section>
+
+
+        <!-- Category Cards -->
+        <section class="ucategories-grid">
+
+            {% for category in categories %}
+
+            <article class="ucategory-card">
+
+                <!-- Category Icon -->
+                <div class="ucategory-icon">
+
+                    {% if category == 'Hardware' %}
+                        🔧
+
+                    {% elif category == 'Electrical' %}
+                        💡
+
+                    {% elif category == 'Water Motors, Pumps & Accessories' %}
+                        💧
+
+                    {% elif category == 'Pipes & Irrigation' %}
+                        🚿
+
+                    {% elif category == 'Sprayers & Farming Tools' %}
+                        🌱
+
+                    {% else %}
+                        📦
+                    {% endif %}
+
+                </div>
+
+
+                <!-- Category Information -->
+                <div class="ucategory-info">
+
+                    <h2>{{ category }}</h2>
+
+                    <p>
+                        {% if category == 'Hardware' %}
+
+                            Explore hardware products for repair
+                            and maintenance requirements.
+
+                        {% elif category == 'Electrical' %}
+
+                            Browse electrical products for different
+                            installation needs.
+
+                        {% elif category == 'Water Motors, Pumps & Accessories' %}
+
+                            Discover water motors, pumps
+                            and related accessories.
+
+                        {% elif category == 'Pipes & Irrigation' %}
+
+                            Explore pipes and irrigation products
+                            for water management.
+
+                        {% elif category == 'Sprayers & Farming Tools' %}
+
+                            Find sprayers and tools for
+                            farming activities.
+
+                        {% endif %}
+                    </p>
+
+
+                    <!-- Category Footer -->
+                    <div class="ucategory-footer">
+
+                        <span class="ucategory-count">
+                            {{ category_counts[category] }}
+                            Products
+                        </span>
+
+                        <a
+                            href="{{ url_for('category_products', category=category) }}"
+                            class="ucategory-view-btn">
+
+                            View Products
+                            <span>→</span>
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+            {% endfor %}
+
+        </section>
+
+
+        <!-- Back to Products -->
+        <div class="ucategories-bottom">
+
+            <a href="{{ url_for('products') }}">
+                ← Back to All Products
+            </a>
+
+        </div>
+
+    </main>
+
+
+    <!-- Footer -->
+    <footer class="ucategories-footer">
+        <p>
+            © 2026 Zambre Agencies |
+            Quality Products • Trusted Service
+        </p>
+    </footer>
+
+
+    <!-- Bootstrap JavaScript -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js">
+    </script>
+
+    <!-- Existing User JavaScript -->
+    <script src="{{ url_for('static', filename='js/user.js') }}"></script>
+
+</body>
+</html>

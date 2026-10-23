@@ -1,0 +1,227 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Zambre Agencies | Stock Management</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+
+<body class="stock-page">
+
+    <div class="page-container">
+
+        <!-- Header -->
+        <div class="page-header">
+
+            <div>
+                <h2>Stock Management</h2>
+                <p>Monitor product quantities and update available stock.</p>
+            </div>
+
+            <div class="header-actions">
+                <a href="{{ url_for('admin_dashboard') }}"
+                   class="btn-dashboard">
+                    ← Dashboard
+                </a>
+
+                <a href="{{ url_for('add_product_page') }}"
+                   class="btn-add">
+                    + Add Product
+                </a>
+            </div>
+
+        </div>
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages() %}
+            {% for message in messages %}
+                <div class="alert alert-info alert-dismissible fade show"
+                     role="alert">
+
+                    {{ message }}
+
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="alert"
+                            aria-label="Close">
+                    </button>
+
+                </div>
+            {% endfor %}
+        {% endwith %}
+
+        <!-- Stock Summary -->
+        <div class="row g-3 mb-4">
+
+            <div class="col-md-4">
+                <div class="stock-summary-card">
+                    <span>Total Products</span>
+                    <h3>{{ products|length }}</h3>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="stock-summary-card">
+                    <span>Low Stock (5 or less)</span>
+                    <h3>
+                        {{ products|selectattr('stock', 'le', 5)|list|length }}
+                    </h3>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="stock-summary-card">
+                    <span>Out of Stock</span>
+                    <h3>
+                        {{ products|selectattr('stock', 'equalto', 0)|list|length }}
+                    </h3>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Stock Table -->
+        <div class="product-card">
+
+            <div class="product-toolbar">
+                <div>
+                    <h5>Product Inventory</h5>
+                    <p class="total-text">
+                        Update the quantity for any product below.
+                    </p>
+                </div>
+
+                <input type="text"
+                       id="stock-search"
+                       class="search-input"
+                       placeholder="Search product or category...">
+            </div>
+
+            <div class="table-responsive">
+
+                <table class="table product-table" id="stock-table">
+
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Product</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Available Stock</th>
+                            <th>Update Quantity</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for product in products %}
+                        <tr>
+
+                            <td>
+                                {% if product['image'] %}
+                                    <img
+                                        src="{{ url_for('static', filename='uploads/' ~ product['image']) }}"
+                                        alt="{{ product['name'] }}"
+                                        class="product-image">
+                                {% else %}
+                                    <span class="no-image">No Image</span>
+                                {% endif %}
+                            </td>
+
+                            <td class="product-name">
+                                {{ product['name'] }}
+                            </td>
+
+                            <td>{{ product['category'] }}</td>
+
+                            <td class="price-cell">
+                                ₹{{ "%.2f"|format(product['price']) }}
+                            </td>
+
+                            <td>
+                                {% if product['stock'] == 0 %}
+                                    <span class="stock-badge out-stock">
+                                        Out of Stock
+                                    </span>
+                                {% elif product['stock'] <= 5 %}
+                                    <span class="stock-badge low-stock">
+                                        {{ product['stock'] }} left
+                                    </span>
+                                {% else %}
+                                    <span class="stock-badge in-stock">
+                                        {{ product['stock'] }} available
+                                    </span>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                <form
+                                    action="{{ url_for('update_stock', product_id=product['id']) }}"
+                                    method="POST"
+                                    class="stock-update-form">
+
+                                    <input type="number"
+                                           name="stock"
+                                           min="0"
+                                           step="1"
+                                           value="{{ product['stock'] }}"
+                                           aria-label="New stock quantity"
+                                           required>
+
+                                    <button type="submit"
+                                            class="btn-stock-update">
+                                        Update
+                                    </button>
+
+                                </form>
+                            </td>
+
+                        </tr>
+
+                        {% else %}
+                        <tr>
+                            <td colspan="6" class="empty-message">
+                                <div class="empty-icon">📦</div>
+                                <h5>No Products Found</h5>
+                                <p>Add a product before managing stock.</p>
+
+                                <a href="{{ url_for('add_product_page') }}"
+                                   class="btn-add">
+                                    + Add Product
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <p id="stock-no-results" class="no-results" hidden>
+                No matching products found.
+            </p>
+
+        </div>
+
+        <footer>
+            © 2026 Zambre Agencies | Quality Products • Trusted Service
+        </footer>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+
+</body>
+</html>

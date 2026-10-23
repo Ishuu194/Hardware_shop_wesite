@@ -1,0 +1,188 @@
+<nav class="navbar navbar-expand-xl user-navbar">
+    <div class="container-fluid user-navbar-container">
+
+        <!-- Logo -->
+        <a href="{{ url_for('home') }}" class="user-brand">
+            <span class="user-brand-icon">🌿</span>
+
+            <span class="user-brand-text">
+                <strong>Zambre Agencies</strong>
+                <small>Quality Products • Trusted Service</small>
+            </span>
+        </a>
+
+        <!-- Mobile Menu Button -->
+        <button class="navbar-toggler user-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#userNavbarContent"
+                aria-controls="userNavbarContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="userNavbarContent">
+
+            <!-- Center Navigation -->
+            <div class="user-nav-center">
+
+                <!-- Home -->
+                <a href="{{ url_for('home') }}" class="user-nav-link {% if request.endpoint == 'home' %}active{% endif %}">  Home  </a>
+
+                <!-- Categories -->
+                <a href="{{ url_for('ucategories') }}" class="user-nav-link {% if request.endpoint in ['ucategories', 'category_products'] %}active{% endif %}"> Categories </a>
+
+                <!-- Products -->
+                <a href="{{ url_for('products') }}" class="user-nav-link {% if request.endpoint == 'products' %}active{% endif %}"> Products </a>
+
+                <!-- Search -->
+                <form action="{{ url_for('products') }}" method="GET" class="user-search-form">
+
+                    <input type="search"  name="search"  placeholder="Search products..."  aria-label="Search products">
+
+                    <button type="submit" aria-label="Search"> ⌕ </button>
+                </form>
+
+                <!-- Cart -->
+                <a href="{{ url_for('cart') }}" class="user-cart-link">
+                     <span>🛒</span>
+                    <span>Cart</span>
+                </a>
+
+            </div>
+
+            <!-- Right Side: Profile -->
+            <div class="user-profile-area">
+
+                {% if session.get('role') == 'admin' %}
+
+                    <!-- Admin Profile -->
+                    <div class="dropdown user-profile-dropdown">
+
+                        <button class="user-profile-btn dropdown-toggle"
+                                type="button"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false">
+
+                            <span class="user-profile-avatar">👤</span>
+                            <span>Admin</span>
+                        </button>
+
+                        <ul class="dropdown-menu dropdown-menu-end user-profile-menu">
+
+                            <li class="profile-menu-heading">
+                                ADMIN ACCOUNT
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('admin_dashboard') }}">
+                                    <span>▦</span>
+                                    Admin Dashboard
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('admin_profile') }}">
+                                    <span>👤</span>
+                                    Admin Profile
+                                </a>
+                            </li>
+
+                            <li><hr class="dropdown-divider"></li>
+
+                            <li>
+                                <a class="dropdown-item user-logout-link" href="{{ url_for('logout') }}">
+                                    <span>↪</span>
+                                    Logout
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+
+                {% elif session.get('user_id') and session.get('role') == 'customer' %}
+
+                    <!-- Customer Profile -->
+                    <div class="dropdown user-profile-dropdown">
+
+                        <button class="user-profile-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="user-profile-avatar">👤</span>
+                            <span>My Profile</span>
+                        </button>
+
+                        <ul class="dropdown-menu dropdown-menu-end user-profile-menu">
+
+                            <li class="profile-menu-heading">
+                                MY ACCOUNT
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('user_dashboard') }}">
+                                    <span>▦</span>
+                                    User Dashboard
+                                </a>
+                            </li>
+
+                            <!-- <li>
+                                <a class="dropdown-item"
+                                   href="{{ url_for('my_profile') }}">
+                                    <span>👤</span>
+                                    My Profile
+                                </a>
+                            </li> -->
+
+                            <li>
+                                <a class="dropdown-item"
+                                   href="{{ url_for('wishlist') }}">
+                                    <span>♡</span>
+                                    Wishlist
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item"
+                                   href="{{ url_for('my_orders') }}">
+                                    <span>▣</span>
+                                    My Orders
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item"
+                                   href="{{ url_for('about') }}">
+                                    <span>ℹ</span>
+                                    About Us
+                                </a>
+                            </li>
+
+                            <li><hr class="dropdown-divider"></li>
+
+                            <li>
+                                <a class="dropdown-item user-logout-link"
+                                   href="{{ url_for('logout') }}">
+                                    <span>↪</span>
+                                    Logout
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+
+                {% else %}
+
+                    <!-- Guest Registration -->
+                    <a href="{{ url_for('register') }}" class="user-profile-btn guest-profile-btn">
+
+                        <span class="user-profile-avatar">👤</span>
+                        <span>Registration</span>
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+    </div>
+</nav>

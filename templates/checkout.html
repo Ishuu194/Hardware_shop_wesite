@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | Zambre Agencies</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+</head>
+<body class="checkout-page">
+    {% include 'nav.html' %}
+    <main class="checkout-container">
+        <div class="checkout-heading">
+            <h1>Checkout</h1>
+            <p>Enter your delivery details to place your order.</p>
+        </div>
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-warning">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="checkout-layout">
+
+            <!-- Delivery Details -->
+            <section class="checkout-form-card">
+
+                <h2>Delivery Details</h2>
+
+                <form method="POST" action="{{ url_for('checkout') }}">
+
+                    <div class="checkout-field">
+                        <label for="fullname">Full Name</label>
+                        <input type="text" id="fullname" name="fullname" value="{{ user_name }}" required>
+                    </div>
+
+                    <div class="checkout-field">
+                        <label for="contact">Contact Number</label>
+                        <input type="tel" id="contact" name="contact" inputmode="numeric" pattern="[0-9]{10}" maxlength="10" title="Enter a 10-digit contact number" required>
+                    </div>
+
+                    <div class="checkout-field">
+                        <label for="address">Full Delivery Address</label>
+                        <textarea id="address" name="address"  rows="3" required></textarea>
+                    </div>
+
+                    <div class="checkout-two-fields">
+
+                        <div class="checkout-field">
+                            <label for="city">City / Village</label>
+                            <input type="text" id="city" name="city" required>
+                        </div>
+
+                        <div class="checkout-field">
+                            <label for="pincode">PIN Code</label>
+                            <input type="text" id="pincode" name="pincode" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" title="Enter a 6-digit PIN code" required>
+                        </div>
+
+                    </div>
+
+                    <h2 class="payment-heading">Payment Method</h2>
+
+                    <label class="cod-option">
+                        <input type="radio" name="payment_method" value="COD" checked required>
+
+                        <span>
+                            <strong>Cash on Delivery</strong>
+                            <small>Pay when your order is delivered.</small>
+                        </span>
+                    </label>
+
+                    <button type="submit" class="place-order-btn"> Place Order </button>
+
+                    <a href="{{ url_for('cart') }}" class="back-cart-link"> ← Back to Cart </a>
+                </form>
+            </section>
+
+            <!-- Order Summary -->
+            <aside class="checkout-summary">
+
+                <h2>Order Summary</h2>
+
+                {% for item in cart_items %}
+                    <div class="checkout-summary-item">
+                        <div>
+                            <p>{{ item['name'] }}</p>
+                            <small>Qty: {{ item['quantity'] }}</small>
+                        </div>
+
+                        <strong> ₹{{ "%.2f"|format(item['price'] * item['quantity']) }} </strong>
+                    </div>
+
+                {% endfor %}
+
+                <div class="checkout-grand-total">
+                    <span>Total Amount</span>
+                    <strong>₹{{ "%.2f"|format(grand_total) }}</strong>
+                </div>
+
+                <p class="checkout-note">
+                    Please verify your delivery information before placing the order.
+                </p>
+
+            </aside>
+
+        </div>
+
+        <footer class="checkout-footer"> © 2026 Zambre Agencies | Quality Products • Trusted Service </footer>
+    </main>
+</body>
+</html>

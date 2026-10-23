@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders | Zambre Agencies</title>
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"rel="stylesheet">
+
+    <!-- Existing CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+
+    <!-- My Orders CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user.css') }}">
+</head>
+
+<body class="my-orders-body">
+
+    <!-- Navbar -->
+    {% include 'nav.html' %}
+
+    <main class="orders-page">
+
+        <!--PAGE HEADER-->
+
+        <header class="orders-heading">
+            <div>
+                <h1>MY ORDERS</h1>
+                <p>  View your purchases and delivery status. </p>
+            </div>
+
+            <a href="{{ url_for('products') }}" class="continue-shopping"> Continue Shopping</a>
+
+        </header>
+
+
+        <!--FLASH MESSAGES-->
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+
+                <div class="orders-messages">
+
+                    {% for message in messages %}
+
+                        <div class="alert alert-info"> {{ message }} </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+        {% endwith %}
+
+
+        <!--SEARCH AND FILTER-->
+
+        {% if orders %}
+
+            <section class="orders-toolbar">
+
+                <div class="orders-search">
+
+                    <span class="search-icon">⌕</span>
+
+                    <input type="search" id="orderSearch" placeholder="Search orders" aria-label="Search orders">
+
+                    <button type="button" id="clearSearch" class="clear-search" aria-label="Clear search" hidden> × </button>
+
+                </div>
+
+
+                <div class="orders-filter">
+
+                    <label for="statusFilter"> ☷ Filters </label>
+
+                    <select id="statusFilter" aria-label="Filter orders by delivery status">
+
+                        <option value="all"> All Orders </option>
+
+                        <option value="placed"> Placed </option>
+
+                        <option value="confirmed"> Confirmed</option>
+
+                        <option value="processing"> Processing </option>
+
+                        <option value="shipped"> Shipped </option>
+
+                        <option value="out-for-delivery"> Out for Delivery</option>
+
+                        <option value="delivered"> Delivered </option>
+
+                        <option value="cancelled"> Cancelled </option>
+
+                    </select>
+
+                </div>
+
+            </section>
+
+
+            <!--PURCHASE LIST-->
+
+            <section class="purchases-list" id="purchasesList">
+
+                {% for order in orders %}
+
+                    {% set status = order['order_status'] or 'Placed' %}
+
+                    {% set status_class = status|lower|replace('_', '-')|replace(' ', '-') %}
+
+
+                    <!-- One Order Group -->
+                    <section class="purchase-order-group">
+
+                        {% for item in order_items[order['order_id']] %}
+
+                            <article class="purchase-row" data-status="{{ status_class }}">
+
+                                <!-- PRODUCT IMAGE -->
+
+                                <div class="purchase-image-box">
+
+                                {% set image_path = item['image'] or '' %}
+
+                                {% if image_path %}
+
+                                    {% if image_path.startswith('http://') or image_path.startswith('https://') %}
+
+                                        <img class="purchase-image" src="{{ image_path }}" alt="{{ item['product_name'] }}">
+
+                                    {% else %}
+
+                                        {% set image_name = image_path.split('/')[-1] %}
+
+                                        <img class="purchase-image" src="{{ url_for('static', filename='uploads/' + image_name) }}" alt="{{ item['product_name'] }}">
+
+                                    {% endif %}
+
+                                {% else %}
+
+                                    <div class="purchase-placeholder">📦</div>
+
+                                {% endif %}
+
+                            </div>
+
+
+                                <!-- PRODUCT DETAILS -->
+
+                                <div class="purchase-details">
+
+                                    <div class="purchase-status-line">
+
+                                        <span class="purchase-status status-{{ status_class }}"> {{ status }} </span>
+
+                                        <span class="purchase-order-id"> Order #{{ order['order_id'] }} </span>
+
+                                    </div>
+
+
+                                    <h3 class="purchase-product-name"> {{ item['product_name'] }} </h3>
+
+
+                                    <p class="purchase-date">
+                                        Ordered on: {{ order['order_date'] or 'Date unavailable' }}
+                                    </p>
+
+                                    <div class="purchase-extra">
+
+                                        <span>  Qty: {{ item['quantity'] }} </span>
+
+                                        <span class="purchase-price"> ₹{{ "%.2f"|format(item['line_total']) }} </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- RIGHT ARROW -->
+
+                                <div class="purchase-arrow"  aria-hidden="true"> › </div>
+
+                            </article>
+
+                        {% endfor %}
+
+
+                        <!-- ORDER SUMMARY-->
+
+                        <details class="order-more-details">
+
+                            <summary>
+                                View order details
+                                <span> Order #{{ order['order_id'] }} </span>
+                            </summary>
+
+                            <div class="order-details-content">
+
+                                <div class="order-detail-line">
+                                    <span>Order Date</span>
+
+                                    <strong>
+                                        {{ order['order_date'] or 'Date unavailable' }}
+                                    </strong>
+                                </div>
+
+
+                                <div class="order-detail-line">
+                                    <span>Delivery Status</span>
+
+                                    <strong class="detail-status status-{{ status_class }}">
+                                        {{ status }}
+                                    </strong>
+                                </div>
+
+
+                                <div class="order-detail-line">
+                                    <span>Payment Method</span>
+
+                                    <strong>
+                                        {{ order['payment_method'] }}
+                                    </strong>
+                                </div>
+
+
+                                <div class="order-detail-line order-grand-total">
+                                    <span>Total Amount</span>
+
+                                    <strong>
+                                        ₹{{ "%.2f"|format(order['total_amount']) }}
+                                    </strong>
+                                </div>
+
+
+                                <!-- DELIVERY ADDRESS -->
+
+                                <div class="order-address">
+
+                                    <h3>Delivery Address</h3>
+
+                                    <p>
+                                        <strong>
+                                            {{ order['fullname'] }}
+                                        </strong>
+                                    </p>
+
+                                    <p>
+                                        {{ order['contact'] }}
+                                    </p>
+
+                                    <p>
+                                        {{ order['address'] }}
+                                    </p>
+
+                                    <p>
+                                        {{ order['city'] }} - {{ order['pincode'] }}
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </details>
+
+                    </section>
+
+                {% endfor %}
+
+            </section>
+
+
+            <!-- =================================
+                 NO SEARCH RESULTS
+            ================================== -->
+
+            <section
+                class="orders-no-results"
+                id="noResults"
+                hidden
+            >
+
+                <div class="empty-order-icon">🔎</div>
+
+                <h2>No Matching Orders</h2>
+
+                <p>
+                    Try another product name or delivery status.
+                </p>
+
+            </section>
+
+
+        {% else %}
+
+
+            <!-- =================================
+                 NO ORDERS
+            ================================== -->
+
+            <section class="orders-empty">
+
+                <div class="empty-order-icon">
+                    📦
+                </div>
+
+                <h2>No Orders Yet</h2>
+
+                <p>
+                    Your purchases and delivery updates
+                    will appear here after you place an order.
+                </p>
+
+                <a href="{{ url_for('products') }}" class="shop-now-btn">  Explore Products </a>
+
+            </section>
+
+        {% endif %}
+
+    </main>
+
+
+    <!-- My Orders JavaScript -->
+    <script
+        src="{{ url_for('static', filename='js/user.js') }}"
+    ></script>
+
+</body>
+</html>

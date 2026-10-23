@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home | Zambre Agencies</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Existing Navbar CSS -->
+    <link rel="stylesheet"  href="{{ url_for('static', filename='css/common.css') }}">
+    <!-- Existing User CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user.css') }}">
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+    <!-- Home Page CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+</head>
+<body class="home-page">
+    <!-- Existing Navbar -->
+    {% include 'nav.html' %}
+    <!--MOVING PRODUCT BANNER-->
+
+    <section class="home-hero">
+
+        <div class="home-hero-content">
+            <span class="home-hero-label"> WELCOME TO ZAMBRE AGENCIES </span>
+
+            <h1> Quality Products for <span>Your Everyday Needs</span> </h1>
+
+            <p>
+                Explore hardware, electrical products, water pumps,
+                irrigation accessories and farming tools in one place.
+            </p>
+
+            <a href="{{ url_for('products') }}" class="home-shop-btn"> Explore Products → </a>
+        </div>
+
+
+        <!-- Product Slider -->
+        <div class="home-slider">
+            {% if featured_products %}
+                {% for product in featured_products %}
+
+                    <article
+                        class="home-slide {% if loop.first %}active{% endif %}"
+                        data-slide="{{ loop.index0 }}">
+
+                        <div class="home-slide-image">
+
+                            {% if product['image'] %}
+
+                                <img src="{{ url_for('static', filename='uploads/' ~ product['image']) }}" alt="{{ product['name'] }}"  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <div class="home-image-fallback" style="display:none;">🌿</div>
+
+                            {% else %}
+
+                                <div class="home-image-fallback"> 🌿 </div>
+
+                            {% endif %}
+
+                        </div>
+
+                        <div class="home-slide-info">
+
+                            <span class="home-slide-category">  {{ product['category'] }} </span>
+
+                            <h2>{{ product['name'] }}</h2>
+
+                            <p class="home-slide-price"> ₹{{ "%.2f"|format(product['price']) }} </p>
+
+                            {% if product['stock'] > 0 %}
+
+                                <span class="home-stock available">  In Stock </span>
+
+                            {% else %}
+
+                                <span class="home-stock unavailable">  Out of Stock  </span>
+
+                            {% endif %}
+
+                            <a href="{{ url_for('products', category=product['category']) }}" class="home-view-product">  View Product →</a>
+
+                        </div>
+
+                    </article>
+                {% endfor %}
+
+                <!-- Slider Controls -->
+                {% if featured_products|length > 1 %}
+
+                    <button type="button" class="home-slider-btn home-prev" aria-label="Previous product"> &#10094;</button>
+                    <button type="button" class="home-slider-btn home-next" aria-label="Next product"> &#10095; </button>
+                    <div class="home-slider-dots">
+
+                        {% for product in featured_products %}
+
+                            <button type="button" class="home-slider-dot {% if loop.first %}active{% endif %}" data-slide-to="{{ loop.index0 }}" aria-label="Show product {{ loop.index }}"> </button>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+            {% else %}
+
+                <div class="home-no-featured">
+                    <span>🌿</span>
+                    <h2>Welcome to Zambre Agencies</h2>
+                    <p>Products will appear here when available.</p>
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </section>
+
+    <!-- SHOP BY CATEGORIES -->
+
+    <section class="home-categories">
+
+        <div class="home-section-heading">
+            <div>
+                <span class="home-section-label">EXPLORE OUR STORE</span>
+                <h2>Shop by Categories</h2>
+                <p>Find the products you need.</p>
+            </div>
+
+            <a href="{{ url_for('ucategories') }}" class="home-section-link"> View All Categories → </a>
+        </div>
+
+
+        <div class="home-category-grid">
+
+            <a href="{{ url_for('products', category='Hardware') }}" class="home-category-card">
+                <span class="home-category-icon">🔧</span>
+                <h3>Hardware</h3>
+                <span>Explore Products →</span>
+            </a>
+
+
+            <a href="{{ url_for('products', category='Electrical') }}" class="home-category-card">
+                <span class="home-category-icon">💡</span>
+                <h3>Electrical</h3>
+                <span>Explore Products →</span>
+            </a>
+
+
+            <a href="{{ url_for('products', category='Water Motors, Pumps & Accessories') }}" class="home-category-card">
+                <span class="home-category-icon">💧</span>
+                <h3>Water Motors & Pumps</h3>
+                <span>Explore Products →</span>
+            </a>
+
+
+            <a href="{{ url_for('products', category='Pipes & Irrigation') }}" class="home-category-card">
+                <span class="home-category-icon">🚿</span>
+                <h3>Pipes & Irrigation</h3>
+                <span>Explore Products →</span>
+            </a>
+
+
+            <a href="{{ url_for('products', category='Sprayers & Farming Tools') }}" class="home-category-card">
+                <span class="home-category-icon">🌱</span>
+                <h3>Sprayers & Farming Tools</h3>
+                <span>Explore Products →</span>
+            </a>
+        </div>
+    </section>
+
+
+    <!-- LATEST PRODUCTS-->
+
+    <section class="home-products">
+
+        <div class="home-section-heading">
+            <div>
+                <span class="home-section-label">OUR STORE COLLECTION</span>
+                <h2>Latest Products</h2>
+                <p>Explore the latest products available in our store.</p>
+            </div>
+
+            <a href="{{ url_for('products') }}"class="home-section-link"> View All Products → </a>
+        </div>
+
+
+        {% if products %}
+
+            <div class="home-product-grid">
+              {% for product in products %}
+
+                    <article class="home-product-card">
+
+                        <!-- Product Image -->
+                        <div class="home-product-image">
+
+                            {% if product['image'] %}
+
+                                <img src="{{ url_for('static', filename='uploads/' ~ product['image']) }}" alt="{{ product['name'] }}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <div class="home-product-placeholder" style="display:none;"> 🌿 </div>
+
+                            {% else %}
+
+                                <div class="home-product-placeholder"> 🌿 </div>
+
+                            {% endif %}
+
+
+                            {% if product['stock'] > 0 %}
+
+                                <span class="home-product-badge"> In Stock </span>
+
+                            {% else %}
+
+                                <span class="home-product-badge out"> Out of Stock </span>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- Product Details -->
+                        <div class="home-product-info">
+
+                            <span class="home-product-category">{{ product['category'] }}</span>
+
+                            <h3>{{ product['name'] }}</h3>
+
+                            <p class="home-product-description"> {{ product['description'] or 'Quality product from Zambre Agencies.' }}</p>
+
+                            <div class="home-product-price-row">
+
+                                <strong> ₹{{ "%.2f"|format(product['price']) }} </strong>
+
+                                <small>
+                                    {% if product['stock'] > 0 %}
+                                        {{ product['stock'] }} available
+                                    {% else %}
+                                        Currently unavailable
+                                    {% endif %}
+                                </small>
+
+                            </div>
+
+
+                            <!-- Add to Cart -->
+                            {% if product['stock'] > 0 %}
+
+                                <form action="{{ url_for('add_to_cart', product_id=product['id']) }}" method="POST">
+
+                                    <button type="submit" class="home-add-cart-btn"> 🛒 Add to Cart </button>
+
+                                </form>
+
+                            {% else %}
+
+                                <button type="button" class="home-add-cart-btn disable disabled"> Out of Stock </button>
+
+                            {% endif %}
+
+
+                            <!-- Wishlist -->
+                            <form action="{{ url_for('add_to_wishlist', product_id=product['id']) }}" method="POST">
+
+                                <button type="submit" class="home-wishlist-btn">♡ Add to Wishlist </button>
+
+                            </form>
+                        </div>
+
+                    </article>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <div class="home-empty-products">
+                <span>📦</span>
+                <h3>No Products Available</h3>
+                <p>Products added by the store admin will appear here.</p>
+            </div>
+
+        {% endif %}
+
+
+        <div class="home-products-bottom">
+
+            <a href="{{ url_for('products') }}" class="home-shop-btn">  Browse All Products → </a>
+        </div>
+
+    </section>
+
+
+    <!-- =====================================
+         ABOUT STORE BANNER
+    ====================================== -->
+
+    <!-- <section class="home-about-banner">
+
+        <div>
+            <span class="home-section-label">ZAMBRE AGENCIES</span>
+
+            <h2>Your Store for Hardware & Agriculture Products</h2>
+
+            <p>
+                Explore our product categories and manage your shopping
+                through your personal customer account.
+            </p>
+        </div>
+
+        <a href="{{ url_for('about') }}"
+           class="home-about-btn">
+            About Our Store →
+        </a>
+
+    </section> -->
+
+
+    <!-- =====================================
+         FOOTER
+    ====================================== -->
+
+    <footer class="home-footer">
+
+        <div class="home-footer-brand">
+            🌿 <strong>Zambre Agencies</strong>
+        </div>
+
+        <p>Quality Products • Trusted Service</p>
+
+        <div class="home-footer-links">
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('ucategories') }}">Categories</a>
+            <a href="{{ url_for('products') }}">Products</a>
+            <a href="{{ url_for('about') }}">About Us</a>
+        </div>
+
+        <small> © 2026 Zambre Agencies. All rights reserved. </small>
+
+    </footer>
+
+
+    <!-- Bootstrap JavaScript -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js">
+    </script>
+
+    <!-- Existing JavaScript -->
+    <script src="{{ url_for('static', filename='js/common.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/user.js') }}"></script>
+
+    <!-- Home Page Slider JavaScript -->
+    <script src="{{ url_for('static', filename='js/home.js') }}"></script>
+
+</body>
+</html>

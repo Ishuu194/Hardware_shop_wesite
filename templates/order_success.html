@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Placed | Zambre Agencies</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+</head>
+
+<body class="checkout-page">
+
+    {% include 'nav.html' %}
+
+    <main class="order-success-container">
+
+        <div class="success-icon">✓</div>
+
+        <h1>Order Placed Successfully!</h1>
+
+        <p class="success-message">
+            Thank you for shopping with Zambre Agencies.
+        </p>
+
+        <div class="success-order-card">
+
+            <div class="success-order-row">
+                <span>Order ID</span>
+                <strong>#{{ order['order_id'] }}</strong>
+            </div>
+
+            <div class="success-order-row">
+                <span>Order Status</span>
+                <strong>{{ order['order_status'] }}</strong>
+            </div>
+
+            <div class="success-order-row">
+                <span>Payment Method</span>
+                <strong>{{ order['payment_method'] }}</strong>
+            </div>
+
+            <div class="success-order-row">
+                <span>Total Amount</span>
+                <strong>₹{{ "%.2f"|format(order['total_amount']) }}</strong>
+            </div>
+
+            <div class="success-delivery-details">
+                <h2>Delivery Address</h2>
+
+                <p>{{ order['fullname'] }}</p>
+                <p>{{ order['contact'] }}</p>
+                <p>{{ order['address'] }}</p>
+                <p>{{ order['city'] }} - {{ order['pincode'] }}</p>
+            </div>
+
+            <h2 class="success-items-title">Ordered Products</h2>
+
+            {% for item in order_items %}
+                <div class="success-item-row">
+                    <span>
+                        {{ item['product_name'] }} × {{ item['quantity'] }}
+                    </span>
+
+                    <strong>
+                        ₹{{ "%.2f"|format(item['line_total']) }}
+                    </strong>
+                </div>
+            {% endfor %}
+
+        </div>
+
+        <a href="{{ url_for('products') }}" class="success-shop-btn">  Continue Shopping </a>
+    </main>
+</body>
+</html>
