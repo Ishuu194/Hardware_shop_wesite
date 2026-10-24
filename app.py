@@ -4,7 +4,7 @@ from werkzeug.utils import secure_filename
 import os
 from dotenv import load_dotenv
 load_dotenv()
-
+from database import *
 app=Flask(__name__)
 
 app.secret_key =os.getenv("SECRET_KEY")
